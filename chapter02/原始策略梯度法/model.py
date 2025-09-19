@@ -52,6 +52,7 @@ class Agent:
         for _, prob in self.memory:
             loss += - prob.log() * G
 
+
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
