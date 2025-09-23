@@ -50,8 +50,8 @@ class PPO:
             self.critic.parameters(),
             lr=critic_lr
         )
-        self.gamma = gamma
-        self.lmbda = lmbda
+        self.gamma = gamma # γ  折扣因子
+        self.lmbda = lmbda # λ，广义优势估计的超参数
         self.epochs = epochs
         self.eps = eps  # PPO中截断范围的参数
         self.device = device
@@ -65,38 +65,42 @@ class PPO:
         return action.item()
 
         # 更新策略，每次智能体更新策略，都需要训练epochs轮
+    # 更新一次智能体，需要训练epochs轮的策略网络和价值网络
     def update(self, transition_dict):
-        # s_t 当前的状态
+        # s_t 当前的状态，每一个时刻的当前状态的数组
         states = torch.tensor(
             transition_dict['states'],
             dtype=torch.float
         ).to(self.device)
-        # a_t 采取的动作
+        # a_t 采取的动作，每一个时刻的采取的动作的数组
         actions = torch.tensor(
             transition_dict['actions']
         ).view(-1, 1).to(self.device)
-        # r_t：t时刻获得的即时奖励
+        # r_t：t时刻获得的即时奖励，每一个时刻的即时奖励的数组
         rewards = torch.tensor(
             transition_dict['rewards'],
             dtype=torch.float
         ).view(-1, 1).to(self.device)
-        # s_{t+1} 下一个状态
+        # s_{t+1} 下一个状态，每一个时刻的下一个状态的数组
         next_states = torch.tensor(
             transition_dict['next_states'],
             dtype=torch.float
         ).to(self.device)
-        # 是否结束标志位
+        # 是否结束标志位，每一个时刻的结束标志位的数组
         dones = torch.tensor(
             transition_dict['dones'],
             dtype=torch.float
         ).view(-1, 1).to(self.device)
         # td_target = R_t + γV(S_{t+1})
+        # 计算出每个时刻单步TD目标组成的数组
         td_target = rewards + \
             self.gamma * self.critic(next_states) * (1 - dones)
         # δ = R_t + γV(S_{t+1}) - V(S_t)
+        # 计算出每个时刻单步TD误差组成的数组
         td_delta = td_target - self.critic(states)
         # A^{π_θ_old}_t
         # `compute_advantage` 计算广义优势估计：n步TD误差
+        # 每个时刻的GAE
         advantage = compute_advantage(
             self.gamma,
             self.lmbda,
@@ -104,6 +108,7 @@ class PPO:
         ).to(self.device)
 
         # 旧策略采取动作的 **对数概率** log{π_θ_old(a_t|s_t)}
+        # 冻结（保存）一份旧策略的采取动作的对数概率
         old_log_probs = torch.log(
             # todo: gather讲解
             self.actor(states).gather(1, actions)

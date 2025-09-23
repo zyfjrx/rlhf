@@ -60,6 +60,7 @@ def train_on_policy_agent(env, agent, num_episodes):
                 state = env.reset()
                 done = False
                 # 采样一条轨迹，记录了每个动作的相关信息
+                # 注意：这条轨迹被反复使用10次，样本利用率较高
                 while not done:
                     # 每执行一次动作，就将相关信息添加到对应的数组
                     action = agent.take_action(state)
@@ -72,7 +73,7 @@ def train_on_policy_agent(env, agent, num_episodes):
                     state = next_state
                     episode_return += reward
                 return_list.append(episode_return)
-                # 更新策略
+                # 更新策略 ---> 冻结一份旧策略的概率，然后更新10次策略网络
                 agent.update(transition_dict)
                 if (i_episode+1) % 10 == 0:
                     pbar.set_postfix({
