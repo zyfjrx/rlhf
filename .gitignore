@@ -2,3 +2,5 @@
 /chapter02/原始策略梯度法/policy_model.pth
 /chapter03/actor_model.pth
 /chapter03/critic_model.pth
+/chapter06/sst2/
+/chapter06/reward_model.pt
