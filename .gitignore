@@ -4,3 +4,4 @@
 /chapter03/critic_model.pth
 /chapter06/sst2/
 /chapter06/reward_model.pt
+/chapter06/gpt2-ppo.pt
