@@ -8,3 +8,6 @@
 /chapter07/ultrachat_200k/
 /chapter07/ultrafeedback_binarized
 /chapter11/grpo_zero/Countdown-Tasks-3to4/
+/chapter11/grpo_zero/logs/
+/chapter11/grpo_zero/ckpt/
+/chapter11/grpo_zero/__pycache__/

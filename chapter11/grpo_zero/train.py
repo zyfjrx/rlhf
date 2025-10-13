@@ -58,7 +58,7 @@ def evaluate(model, tokenizer, device, dtype):
 
 def main():
     pretrained_model_path = Path(
-        "./Qwen2.5-3B-Instruct/"
+        "/root/sft/Qwen2.5-3B-Instruct/"
     )
     device = torch.device("cuda")
     dtype = torch.bfloat16
@@ -74,7 +74,7 @@ def main():
 
     current_time = datetime.now().strftime(r"%Y%m%d-%H%M%S")
     tb_writer = SummaryWriter(log_dir=f"./logs/{current_time}")
-    tokenizer = Tokenizer("./Qwen2.5-3B-Instruct/tokenizer.json")
+    tokenizer = Tokenizer("/root/sft/Qwen2.5-3B-Instruct/tokenizer.json")
 
     train_dataset = CountdownTasksDataset(
         data_path="./Countdown-Tasks-3to4/",
