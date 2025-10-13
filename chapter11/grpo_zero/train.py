@@ -60,14 +60,14 @@ def main():
     pretrained_model_path = Path(
         "/root/sft/Qwen2.5-3B-Instruct/"
     )
-    device = torch.device("cuda")
+    device = torch.device("mps")
     dtype = torch.bfloat16
     torch.set_default_device(device)
     torch.random.manual_seed(1337)
     # 批次大小
-    BATCH_SIZE = 256
+    BATCH_SIZE = 4
     # 每个批次32个问题
-    NUM_QUESTIONS_PER_BATCH = 32
+    NUM_QUESTIONS_PER_BATCH = 2
     # 每个问题产生8条回答
     NUM_ANSWERS_PER_QUESTION = \
         BATCH_SIZE // NUM_QUESTIONS_PER_BATCH
@@ -130,7 +130,7 @@ def main():
             device=device,
             dtype=dtype,
         )
-        torch.cuda.synchronize()
+        torch.mps.synchronize()
         end_time = time.time()
         duration = end_time - start_time
         start_time = end_time

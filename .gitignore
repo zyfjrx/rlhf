@@ -11,3 +11,6 @@
 /chapter11/grpo_zero/logs/
 /chapter11/grpo_zero/ckpt/
 /chapter11/grpo_zero/__pycache__/
+/chapter11/grpo_medical/gsm8k/
+/chapter11/grpo_medical/Health_Benchmarks/
+/chapter11/grpo_medical/PubMedQA/
