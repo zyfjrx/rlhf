@@ -142,10 +142,8 @@ def train(agent, env):
     for episode in range(500):
         trajectories, episode_rewards = [], []
         for _ in range(G):
-            states, log_probs, actions, normalized_reward = agent.collect_trajectory(
-                env)
-            trajectories.append(
-                (states, log_probs, actions, normalized_reward))
+            states, log_probs, actions, normalized_reward = agent.collect_trajectory(env)
+            trajectories.append((states, log_probs, actions, normalized_reward))
             episode_rewards.append(normalized_reward * 200)
         agent.update(trajectories)
         # 一组轨迹的平均奖励
